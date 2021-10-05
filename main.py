@@ -46,9 +46,12 @@ def compute(tape: list, control: dict, head: int) -> tuple:
 
     current_state: str = "q0"
 
+    counter = 0
     while current_state != "h":
         if head >= len(tape):
             tape += "#"
+        if counter > 100:
+            return (False, f"Error: turing machine ran for more than 100 steps")
         symbol = tape[head]
         if current_state in control:
             if symbol in control[current_state]:
@@ -72,6 +75,7 @@ def compute(tape: list, control: dict, head: int) -> tuple:
                 False,
                 f"Error: no transitions were defined from state {current_state}",
             )
+        counter += 1
     return (True, "".join(tape))
 
 
